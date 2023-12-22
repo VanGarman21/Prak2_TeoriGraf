@@ -10,8 +10,8 @@ class Cursor(object):
         '''
         self.max_x = max_x
         self.max_y = max_y
-        self.x = self.max_x // 2 - 15
-        self.y = self.max_y // 2 - 8
+        self.x = self.max_x 
+        self.y = self.max_y 
 
     def get_x(self) -> int:
         '''
@@ -41,10 +41,10 @@ class Cursor(object):
         '''
         Mengatur ulang posisi x ke nilai awal.
         '''
-        self.x = self.max_x // 2 - 15
+        self.x = self.max_x 
 
     def reset_y(self) -> None:
         '''
         Mengatur ulang posisi y ke nilai awal.
         '''
-        self.y = self.max_y // 2 - 8
+        self.y = self.max_y 

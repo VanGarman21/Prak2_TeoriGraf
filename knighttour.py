@@ -16,7 +16,7 @@ def algorithm(stdscr, cursor: Cursor, papan: List[List[int]], krow: int, kcol: i
     '''
     # Kemungkinan langkah yang dapat dilakukan oleh kuda
     dx: List[int] = [1, 2, 2, 1, -1, -2, -2, -1]  # langkahnya ke kanan dan ke kiri sebanyak 2 langkah dan ke atas dan ke bawah sebanyak 1 langkah
-    dy: List[int] = [-2, -1, 1, 2, 2, 1, -1, -2]
+    dy: List[int] = [-2, -1, 1, 2, 2, 1, -1, -2]  #
 
     langkah = 0
     for _ in range(64):
@@ -25,27 +25,27 @@ def algorithm(stdscr, cursor: Cursor, papan: List[List[int]], krow: int, kcol: i
         pq: List[Tuple[int, int]] = []  # priority queue of available neighbors
 
         # Derajat tetangga
-        for i in range(8):
-            nrow: int = krow + dx[i]
-            ncol: int = kcol + dy[i]
+        for i in range(8):  
+            nrow: int = krow + dx[i]    # posisi tetangga
+            ncol: int = kcol + dy[i]    # posisi tetangga
 
             if 0 <= nrow <= 7 and 0 <= ncol <= 7 and papan[nrow][ncol] == 0:
                 # Hitung tetangga yang tersedia dari tetangga tersebut
-                count = 0
+                count = 0   
                 for j in range(8):
-                    nnrow: int = nrow + dx[j]
-                    nncol: int = ncol + dy[j]
+                    nnrow: int = nrow + dx[j]   # posisi selanjutnya dari tetangga
+                    nncol: int = ncol + dy[j]   # posisi selanjutnya dari tetangga
 
-                    if 0 <= nnrow <= 7 and 0 <= nncol <= 7 and papan[nnrow][nncol] == 0:
-                        count += 1
-                heappush(pq, (count, i))
+                    if 0 <= nnrow <= 7 and 0 <= nncol <= 7 and papan[nnrow][nncol] == 0:    # jika tetangga dari tetangga tersebut tersedia
+                        count += 1  # tambahkan 1
+                heappush(pq, (count, i))    
 
-        if len(pq) > 0:
+        if len(pq) > 0:     
             (p, m) = heappop(pq)  # posisi selanjutnya dari kuda
-            krow += dx[m]
-            kcol += dy[m]
-            papan[krow][kcol] = 0
-            update_papan(stdscr, cursor, papan)
+            krow += dx[m]   # posisi selanjutnya dari kuda
+            kcol += dy[m]           
+            papan[krow][kcol] = 0   
+            update_papan(stdscr, cursor, papan) 
         else:
             papan[krow][kcol] = langkah
             update_papan(stdscr, cursor, papan)
@@ -53,7 +53,7 @@ def algorithm(stdscr, cursor: Cursor, papan: List[List[int]], krow: int, kcol: i
 
 def visualize(stdscr, pos: Tuple[int, int]) -> None:
     # Bersihkan layar
-    stdscr.clear()
+    stdscr.clear()  
 
     # Sembunyikan kursor
     curses.curs_set(0)
