@@ -59,8 +59,8 @@ def visualize(stdscr, pos: Tuple[int, int]) -> None:
     curses.curs_set(0)
 
     # Warna
-    curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)  # batas
-    curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)  # sel yang telah dikunjungi
+    curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_BLACK)  # batas
+    curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)  # sel yang telah dikunjungi
     curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)  # sel kuda
     curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)  # sel yang belum dikunjungi
     curses.init_pair(5, curses.COLOR_MAGENTA, curses.COLOR_BLACK)  # progress bar
@@ -83,7 +83,7 @@ def visualize(stdscr, pos: Tuple[int, int]) -> None:
     # Mulai algoritma Warnsdorff
     algorithm(stdscr, cursor, papan, pos[0], pos[1])
 
-    sleep(5.0)
+    sleep(3600.0)
 
 
 def main() -> None:

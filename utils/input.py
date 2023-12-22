@@ -21,14 +21,14 @@ def print_papan_dummy() -> None:
         if i != 0:
             # Mencetak baris dengan sel-sel dan pemisah
             print(
-                str(j) + '   ' + Fore.GREEN +
+                str(j) + '   ' + Fore.YELLOW +
                 '|   |   |   |   |   |   |   |   |')
-            print('    ' + Fore.GREEN + '---------------------------------')
+            print('    ' + Fore.YELLOW + '---------------------------------')
             j += 1
         else:
             # Mencetak header kolom indeks
             print('      ' + '0   1   2   3   4   5   6   7\n')
-            print('    ' + Fore.GREEN + '---------------------------------')
+            print('    ' + Fore.YELLOW + '---------------------------------')
     print('\n')
 
 def validate(pos: str) -> bool:

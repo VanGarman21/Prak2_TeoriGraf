@@ -8,7 +8,7 @@ def horizontal_line(stdscr, cursor: Cursor) -> None:
     Mencetak garis batas horizontal.
     '''
     cursor.set_x(1) # Mengatur posisi kursor ke kolom pertama
-    stdscr.addstr(cursor.get_y(), cursor.get_x(), '-' * 29, curses.color_pair(1))   # Mencetak garis batas
+    stdscr.addstr(cursor.get_y(), cursor.get_x(), '-' * 30, curses.color_pair(1))   # Mencetak garis batas
     cursor.set_y(1) # Mengatur posisi kursor ke baris berikutnya
 
 def vertical_line(stdscr, cursor: Cursor, side: str) -> None:
@@ -19,7 +19,7 @@ def vertical_line(stdscr, cursor: Cursor, side: str) -> None:
         stdscr.addstr(cursor.get_y(), cursor.get_x(), '|', curses.color_pair(1))    
         cursor.set_x(1) 
     elif side == 'R':   # Mencetak garis batas di sisi kanan
-        stdscr.addstr(cursor.get_y(), cursor.get_x(), '|', curses.color_pair(1))
+        stdscr.addstr(cursor.get_y(), cursor.get_x() -2 , '|', curses.color_pair(1))    # Mengatur posisi kursor ke kolom sebelumnya lalu mencetak garis batas di sisi kanan
         cursor.set_y(1) 
     else:
         raise ValueError('Invalid value for argument \'side\'') # Jika argumen side tidak valid maka akan mengembalikan ValueError
@@ -28,8 +28,11 @@ def get_progress(papan) -> str:
     '''
     Mengembalikan kemajuan algoritma dalam bentuk persentase.
     '''
-    visited_cell_count = sum(row.count(1) for row in papan)   # Menghitung jumlah sel yang sudah dikunjungi
+    visited_cell_count = 0   # Menghitung jumlah sel yang sudah dikunjungi
     total_cell_count = 64   # Jumlah sel pada papan
+    
+    for row in range(8):
+        visited_cell_count += 8 - papan[row].count(0)
     progress = (visited_cell_count / total_cell_count) * 100    # Menghitung persentase kemajuan
     return f'{progress}%'
 
@@ -56,7 +59,9 @@ def print_papan(stdscr,
                 papan: List[List[int]],
                 progress: bool = False,
                 sleep_value: float = 0.5,
-                initialize: bool = False) -> None:
+                initialize: bool = False,
+                current_step: int = 0
+                ) -> None:
     '''
     Mencetak papan di jendela.
     '''
@@ -66,29 +71,20 @@ def print_papan(stdscr,
 
         # Mencetak baris kosong
         if 0 < row <= 7: # Jika baris bukan baris pertama atau terakhir maka akan mencetak baris kosong di antara baris
-            stdscr.addstr(cursor.get_y(), cursor.get_x(), '|' + ' ' * 29 + '|', curses.color_pair(1))   # Mencetak baris kosong di antara baris pertama dan terakhir
+            stdscr.addstr(cursor.get_y(), cursor.get_x(), '|' + ' ' * 30 + '|', curses.color_pair(1))   # Mencetak baris kosong di antara baris pertama dan terakhir
             cursor.set_y(1) 
 
         # Mencetak batas kiri
         vertical_line(stdscr, cursor, side='L') 
 
         for col in range(8):
-            # Sel sudah dikunjungi
-                 # Jika sel sudah dikunjungi maka akan mencetak sel dengan warna hijau kemudian jika dikunjungi lagi angka yang dicetak akan berubah menjadi 2, 3, 4, dst.
-            if papan[row][col] == 1:
-                stdscr.addstr(cursor.get_y(), cursor.get_x(), str(papan[row][col]), curses.color_pair(2))
-                # Jika sudah dikunjungi maka sel yang dikunjungi selanjutnya mencetak angka yang lebih besar
-             
-
-            # Sel kuda
-            elif papan[row][col] == 2:
-                stdscr.addstr(cursor.get_y(), cursor.get_x(), str(papan[row][col]), curses.color_pair(3))
-            # Sel belum dikunjungi
-            else:
+            if papan[row][col] == current_step:
                 stdscr.addstr(cursor.get_y(), cursor.get_x(), str(papan[row][col]), curses.color_pair(4))
+            else:
+                stdscr.addstr(cursor.get_y(), cursor.get_x(), str(papan[row][col]), curses.color_pair(2))
             cursor.set_x(1)
 
-            if col != 7:
+            if col != 8:
                 cursor.set_x(3)
 
         # Mencetak batas kanan
